@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const useNotificationPermissionStatus = () => {
     const [permission, setPermission] = useState<NotificationPermission>("default");
-    if ("Notification" in window) {
+    //if ("Notification" in window) {
 
         useEffect(() => {
             const handler = () => setPermission(Notification.permission);
@@ -16,7 +16,7 @@ const useNotificationPermissionStatus = () => {
                     notifactionPerm.onchange = handler;
                 });
         }, []);
-    }
+    //}
     return permission;
 };
 
