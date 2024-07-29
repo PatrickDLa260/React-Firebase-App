@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 
 const useNotificationPermissionStatus = () => {
-        const [permission, setPermission] = useState<NotificationPermission>("default");
+    const [permission, setPermission] = useState<NotificationPermission>("default");
+    if ("Notification" in window) {
 
         useEffect(() => {
             const handler = () => setPermission(Notification.permission);
@@ -15,12 +16,11 @@ const useNotificationPermissionStatus = () => {
                     notifactionPerm.onchange = handler;
                 });
         }, []);
-
-        return permission;
+    }
+    return permission;
 };
 
-export default useNotificationPermissionStatus;
-
+export default useNotificationPermissionStatus; 
 
 //import { Platform, PermissionsAndroid } from 'react-native';
     //if (Platform.OS === 'web') {
