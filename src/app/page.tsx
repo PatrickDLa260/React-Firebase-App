@@ -8,6 +8,12 @@ export default function Home() {
     <div className="container flex flex-col items-center">
       <h1>FCM</h1>
       <p>FCM Token: {fcmToken}</p>
+      {messages.map((message, index) => (
+        <div key={index}>
+          <h2>{message.notification?.title}</h2>
+          <p>{message.notification?.body}</p>
+        </div>
+      ))}
     </div>
   )
 }
