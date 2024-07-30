@@ -4,7 +4,6 @@ import { getToken, isSupported } from "firebase/messaging";
 import { messaging } from "../firebase";
 import useNotificationPermission from "./useNotificationPermission";
 
-// Use the extended notification permission type
 type ExtendedNotificationPermission = NotificationPermission | "unsupported";
 
 const useFCMToken = () => {
@@ -15,9 +14,9 @@ const useFCMToken = () => {
         const retrieveToken = async () => {
             if (typeof window !== "undefined" && "serviceWorker" in navigator && permission !== "unsupported") {
                 if (permission === "granted") {
-                    const isFCMSupported = await isSupported();
-                    if (!isFCMSupported) return;
                     try {
+                        const isFCMSupported = await isSupported();
+                        if (!isFCMSupported) return;
                         const fcmToken = await getToken(messaging(), {
                             vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY
                         });

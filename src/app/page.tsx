@@ -2,7 +2,11 @@
 import useFCM from "./utils/hooks/useFCM";
 
 export default function Home() {
-  const { messages, fcmToken } = useFCM();
+  const { messages, fcmToken, supported } = useFCM();
+
+  if (!supported) {
+    return <div>Firebase Cloud Messaging is not supported in this browser.</div>;
+  }
 
   return (
     <div className="container flex flex-col items-center">
@@ -15,5 +19,5 @@ export default function Home() {
         </div>
       ))}
     </div>
-  )
+  );
 }
