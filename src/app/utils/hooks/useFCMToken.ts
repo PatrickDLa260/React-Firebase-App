@@ -4,13 +4,16 @@ import { getToken, isSupported } from "firebase/messaging";
 import { messaging } from "../firebase";
 import useNotificationPermission from "./useNotificationPermission";
 
+// Use the extended notification permission type
+type ExtendedNotificationPermission = NotificationPermission | "unsupported";
+
 const useFCMToken = () => {
-    const permission = useNotificationPermission();
+    const permission = useNotificationPermission() as ExtendedNotificationPermission;
     const [fcmToken, setFcmToken] = useState<string | null>(null);
 
     useEffect(() => {
         const retrieveToken = async () => {
-            if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+            if (typeof window !== "undefined" && "serviceWorker" in navigator && permission !== "unsupported") {
                 if (permission === "granted") {
                     const isFCMSupported = await isSupported();
                     if (!isFCMSupported) return;
@@ -22,10 +25,6 @@ const useFCMToken = () => {
                     } catch (error) {
                         console.error("An error occurred while retrieving FCM token:", error);
                     }
-                    /* const fcmToken = await getToken(messaging(), {
-                        vapidKey: "BDUZBpHxh2C-S3EPxoMJMSjHP23XCg0tO9DkRQBQdOyfPG9sGm-HFCCE1rygBheknkvsLLowuJ0Hqm4I-ZcHG00"
-                    })
-                    setFcmToken(fcmToken); */
                 }
             }
         };
